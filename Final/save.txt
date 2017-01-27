@@ -1,0 +1,79 @@
+library("shiny")
+
+Coins <- data.frame()
+
+genCoin <- function(totalFlip){
+  ncoins <- sample(0:1,totalFlip,replace = F)
+  Coins["flip"] <- data.frame(flip = ncoins)
+  return(flip)
+}
+?sample
+
+genDice <- function(totalDice){
+  roll <- sample(1:6,totalDice,replace = F)
+  return(roll)
+}
+
+side <- function(n){
+    if (n == '0')
+      return("Tails")
+    else 
+      return("Heads")
+}
+
+checkThree <- function(n){
+  for (i in n) {
+    if(n[i]>3){
+      return(T)
+    } else
+      return(F)
+  }
+}
+
+ui <- fluidPage(includeCSS("styles.css"),
+  fluidRow(
+    withMathJax(),
+    column(8,
+           h1("Final Project")
+           ),
+    column(2,
+           p("Daniel Izaguirre"), 
+           p("Daniel Mihok"),
+           p("Brandon Day")
+           ),
+    column(2,
+           p("Probablilty and Statistics"),
+           p("Professor Ying"),
+           p("Project Part 3 - Game")
+    )
+  ),
+  fluidRow(
+    sidebarLayout(
+      sidebarPanel(
+        h2("The Game Rules:"),
+        p("1) The player must flip a coin. The player loses with a tails."),
+        p("2) If the player flipped heads, then the player may roll a dice."),
+        p("3) The player only wins if the dice roll is greater than 3. Win on 3+."),
+        h2("Events"),
+        h4("The Coin Flip"),
+        p("If \\(X\\) is a Random Binomial variable, then"), 
+        p("$$P(X = x ) = 1/2$$", style = "font-size:200%"),
+        uiOutput('roll'),
+        hr(),
+        h4("The Dice Roll(D6)"),
+        p("If \\(X\\) is a Discrete Random variable per roll, then"), 
+        p("$$P(X = x ) = 1/6$$", style = "font-size:200%"),
+        p("If \\(X\\) is a Discrete Random variable to win, then"), 
+        p("$$P(X = x ) = 1/2$$", style = "font-size:200%")
+        
+      ),
+      mainPanel(
+      )
+    )
+  )
+)
+
+server <- function(input, output, session){
+}
+
+shinyApp(ui = ui, server = server)
